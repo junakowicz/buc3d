@@ -13,6 +13,7 @@ import {
 import { Lamborghini } from './Lamborghini'
 import { Model as Buc } from './Buc'
 import Menu from './Menu'
+import CardsMenu from './CardsMenu'
 import { Ground } from './Ground'
 import { Rings } from './Rings'
 import * as React from 'react'
@@ -60,8 +61,9 @@ function SceneWrapper() {
   // const [reactMap, threeMap] = useTexture(['/decals/decal1.jpg', '/decals/decal2.jpg'])
 
   return (
-    <Canvas gl={{ toneMappingExposure: 0.41 }}>
-      {/* <Decal mesh={ref} {...props}>
+    <>
+      <Canvas gl={{ toneMappingExposure: 0.41 }}>
+        {/* <Decal mesh={ref} {...props}>
         <meshPhysicalMaterial
           roughness={0.2}
           transparent
@@ -72,20 +74,23 @@ function SceneWrapper() {
           polygonOffsetFactor={-10}
         />
       </Decal> */}
-      <ContextBridge>
-        <Suspense fallback={null}>
-          <Environment files={envHDR} ground={{ height: groundHeight, radius: groundRadius }} />
+        <ContextBridge>
+          <Suspense fallback={null}>
+            <Environment files={envHDR} ground={{ height: groundHeight, radius: groundRadius }} />
 
-          {/* <Lamborghini rotation={[0.0, 0, -0.005]} scale={0.07} position={[0, 17, 0]} envMap={envHDR} UVScale={UVScale} /> */}
-          <Buc scale={0.07} position={[0, 17, 0]} decalsPosition={decalsPosition} />
-          <ContactShadows renderOrder={2} frames={1} resolution={1024} scale={120} blur={2} opacity={1.6} far={100} />
-          {/* <Dodecahedron position={[-1, 2, 0.5]} scale={0.75} /> */}
-        </Suspense>
-        <Menu />
-        <OrbitControls enableZoom enablePan={false} minPolarAngle={0} maxPolarAngle={Math.PI / 2.25} makeDefault />
-        <PerspectiveCamera makeDefault position={[-30, 10, 120]} fov={35} />
-      </ContextBridge>
-    </Canvas>
+            {/* <Lamborghini rotation={[0.0, 0, -0.005]} scale={0.07} position={[0, 17, 0]} envMap={envHDR} UVScale={UVScale} /> */}
+            <Buc scale={0.07} position={[0, 17, 0]} decalsPosition={decalsPosition} />
+            <ContactShadows renderOrder={2} frames={1} resolution={1024} scale={120} blur={2} opacity={1.6} far={100} />
+            {/* <Dodecahedron position={[-1, 2, 0.5]} scale={0.75} /> */}
+          </Suspense>
+          <Menu />
+          <OrbitControls enableZoom enablePan={false} minPolarAngle={0} maxPolarAngle={Math.PI / 2.25} makeDefault />
+          <PerspectiveCamera makeDefault position={[-30, 10, 120]} fov={35} />
+        </ContextBridge>
+      </Canvas>
+
+      <CardsMenu />
+    </>
   )
 }
 function App() {
