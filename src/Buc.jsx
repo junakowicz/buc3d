@@ -13,8 +13,12 @@ const lookAtPos = new THREE.Vector3()
 export function Model(props) {
   const { nodes, materials } = useGLTF('/buc-transformed.glb')
 
-  const {decalX,decalY,decalZ} = props
-  const texture = useTexture('/decals/decal1.png')
+  const {decalsPosition: {decal1X,decal1Y,decal1Z,decal2X,decal2Y,decal2Z},} = props
+  const decal1 = useTexture('/decals/decal1.png')
+  const decal2 = useTexture('/decals/decal2.jpg')
+
+
+  console.log("props.decalsPosition",props.decalsPosition)
   useFrame((state, delta) => {
     // const step = 0.1
     // state.camera.fov = THREE.MathUtils.lerp(state.camera.fov, zoom ? 10 : 42, step)
@@ -104,7 +108,8 @@ export function Model(props) {
       <mesh geometry={nodes.BUCv3_v41_simplified_jig_v38091.geometry} material={materials['chrome brushed']} scale={0.4} />
       <mesh geometry={nodes.frame.geometry} material={materials['Material.002']} scale={0.4} >
 
-      <Decal debug position={[decalX, decalY, decalZ]} rotation={0} scale={100} map={texture} map-anisotropy={16} />
+      <Decal debug position={[decal1X, decal1Y, decal1Z]} rotation={0} scale={100} map={decal1} map-anisotropy={16} />
+      <Decal debug position={[decal2X, decal2Y, decal2Z]} rotation={0} scale={100} map={decal2} map-anisotropy={16} />
       </mesh>
     </group>
   )
