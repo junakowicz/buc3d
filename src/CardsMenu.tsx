@@ -1,9 +1,16 @@
 import React, { useState } from "react";
 import { useSprings, animated, to as interpolate } from "@react-spring/web";
 import { useDrag } from "react-use-gesture";
+
 import { MenuContext } from "./App";
 import styles from "./styles.module.css";
 import { useCallback } from "react";
+export enum MENU_ITEM_NAMES {
+  ABOUT = "About",
+  DESIGN = "design your bike",
+  SPECIFICATION = "specification",
+  LOG_IN = "Log in",
+}
 
 const cards = [
   "https://upload.wikimedia.org/wikipedia/commons/f/f5/RWS_Tarot_08_Strength.jpg",
@@ -84,7 +91,7 @@ function Deck({ context }: any) {
             }}
           >
             {" "}
-            <CardContent context={context} />
+            <CardContent selectedItem={context.selectedItem} />
           </animated.div>
         </animated.div>
       ))}
@@ -92,11 +99,13 @@ function Deck({ context }: any) {
   );
 }
 
-function CardContent({ context }: any) {
-  const { selectedItem } = context;
-  console.log("selectedItem", selectedItem);
+function CardContent({ selectedItem }: any) {
+  // const { selectedItem } = context;
+  console.log("card content --- selectedItem", selectedItem);
 
   const getContent = (selectedItem: MENU_ITEM_NAMES) => {
+    console.log("selectedItem getContent", selectedItem);
+
     switch (selectedItem) {
       case MENU_ITEM_NAMES.SPECIFICATION:
         return <DesignCard />;
@@ -141,13 +150,6 @@ export default function CardsMenu() {
   );
 }
 
-export enum MENU_ITEM_NAMES {
-  ABOUT = "About",
-  DESIGN = "design your bike",
-  SPECIFICATION = "specification",
-  LOG_IN = "Log in",
-}
-
 function MenuItems({ context }: any) {
   const items = [
     { name: MENU_ITEM_NAMES.DESIGN },
@@ -169,6 +171,7 @@ function MenuItems({ context }: any) {
     <div className={styles["menu-container"]}>
       {items.map((itm) => (
         <div
+          key={itm.name}
           className={styles["menu-item"]}
           onClick={(e) => onItemClick(e, itm.name)}
         >
