@@ -1,3 +1,32 @@
+// import React from 'react';
+// import logo from './logo.svg';
+// import './App.css';
+
+// function App() {
+//   return (
+//     <div className="App">
+//       <header className="App-header">
+//         <img src={logo} className="App-logo" alt="logo" />
+//         <p>
+//           Edit <code>src/App.tsx</code> and save to reload.
+//         </p>
+//         <a
+//           className="App-link"
+//           href="https://reactjs.org"
+//           target="_blank"
+//           rel="noopener noreferrer"
+//         >
+//           Learn React
+//         </a>
+//       </header>
+//     </div>
+//   );
+// }
+
+// export default App;
+
+
+
 import { Canvas, useFrame } from '@react-three/fiber'
 import {
   Environment,
@@ -12,10 +41,9 @@ import {
 } from '@react-three/drei'
 import { Lamborghini } from './Lamborghini'
 import { Model as Buc } from './Buc'
-import Menu from './Menu'
 import CardsMenu from './CardsMenu'
 import { Ground } from './Ground'
-import { Rings } from './Rings'
+// import { Rings } from './Rings'
 import * as React from 'react'
 import { useLoader } from '@react-three/fiber'
 import { useRef, useState } from 'react'
@@ -37,8 +65,13 @@ import { TextureLoader } from 'three/src/loaders/TextureLoader'
 // const envHDR = '/short_tunnel_4k.hdr'
 const envHDR = '/small_hangar_02_4k.hdr'
 // const envHDR = '/portland_landing_pad_4k.hdr'
-export const ThemeContext = React.createContext()
-export const MenuContext = React.createContext()
+
+type ThemeContextType = { colors: { red: string; green: string; blue: string; }; } | null
+type MenuContextType = { selectedItem: boolean; setSelectedItem: React.Dispatch<React.SetStateAction<boolean>>; name: string; setName: React.Dispatch<React.SetStateAction<string>>; isMenuContentVisible: boolean; setIsMenuContentVisible: React.Dispatch<React.SetStateAction<boolean>>; } | null
+
+
+export const ThemeContext = React.createContext<ThemeContextType>(null)
+export const MenuContext = React.createContext<MenuContextType>(null)
 const lookAtPos = new THREE.Vector3()
 
 function SceneWrapper() {
@@ -83,7 +116,7 @@ function SceneWrapper() {
             <ContactShadows renderOrder={2} frames={1} resolution={1024} scale={120} blur={2} opacity={1.6} far={100} />
             {/* <Dodecahedron position={[-1, 2, 0.5]} scale={0.75} /> */}
           </Suspense>
-          <Menu />
+          {/* <Menu /> */}
           <OrbitControls enableZoom enablePan={false} minPolarAngle={0} maxPolarAngle={Math.PI / 2.25} makeDefault />
           <PerspectiveCamera makeDefault position={[-30, 10, 120]} fov={35} />
         </Canvas>
