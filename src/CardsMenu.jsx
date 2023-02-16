@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
 import { useSprings, animated, to as interpolate } from '@react-spring/web'
 import { useDrag } from 'react-use-gesture'
-
+import { MenuContext } from './App'
 import styles from './styles.module.css'
+import { useCallback } from 'react'
 
 const cards = [
   'https://upload.wikimedia.org/wikipedia/commons/f/f5/RWS_Tarot_08_Strength.jpg',
-//   'https://upload.wikimedia.org/wikipedia/commons/5/53/RWS_Tarot_16_Tower.jpg',
-//   'https://upload.wikimedia.org/wikipedia/commons/9/9b/RWS_Tarot_07_Chariot.jpg',
-//   'https://upload.wikimedia.org/wikipedia/commons/d/db/RWS_Tarot_06_Lovers.jpg',
-//   'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/RWS_Tarot_02_High_Priestess.jpg/690px-RWS_Tarot_02_High_Priestess.jpg',
-//   'https://upload.wikimedia.org/wikipedia/commons/d/de/RWS_Tarot_01_Magician.jpg',
+  //   'https://upload.wikimedia.org/wikipedia/commons/5/53/RWS_Tarot_16_Tower.jpg',
+  //   'https://upload.wikimedia.org/wikipedia/commons/9/9b/RWS_Tarot_07_Chariot.jpg',
+  //   'https://upload.wikimedia.org/wikipedia/commons/d/db/RWS_Tarot_06_Lovers.jpg',
+  //   'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/RWS_Tarot_02_High_Priestess.jpg/690px-RWS_Tarot_02_High_Priestess.jpg',
+  //   'https://upload.wikimedia.org/wikipedia/commons/d/de/RWS_Tarot_01_Magician.jpg',
 ]
 
 // These two are just helpers, they curate spring data, values that are later being interpolated into css
@@ -26,7 +27,10 @@ const from = (_i) => ({ x: 0, rot: -10 + Math.random() * 20, scale: 1.5, y: -100
 const trans = (r, s) =>
   `perspective(1500px) rotateX(0deg) rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
 
-function Deck() {
+function Deck({ context }) {
+
+
+
   const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
   const [props, api] = useSprings(cards.length, i => ({
     ...to(i),
@@ -51,16 +55,18 @@ function Deck() {
         config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 },
       }
     })
+
     if (!down && gone.size === cards.length)
       setTimeout(() => {
         gone.clear()
+        context.setIsMenuContentVisible(false)
         api.start(i => to(i))
       }, 600)
   })
   // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
   return (
     //   <>
-        <div className={styles.container}> 
+    <div className={styles.container}>
       {props.map(({ x, y, rot, scale }, i) => (
         <animated.div className={styles.deck} key={i} style={{ x, y }}>
           {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
@@ -68,10 +74,10 @@ function Deck() {
             {...bind(i)}
             style={{
               transform: interpolate([rot, scale], trans),
-              backgroundImage: `url(${cards[i]})`,
+              // backgroundImage: `url(${cards[i]})`,
             }}>
             {' '}
-            text test
+            <CardContent context={context} />
           </animated.div>
         </animated.div>
       ))}
@@ -80,9 +86,87 @@ function Deck() {
   )
 }
 
-export default function CardsMenu() {
-  return (
- 
-      <Deck />)
+function CardContent({ context }) {
+  const { selectedItem } = context
+  console.log("selectedItem", selectedItem);
 
+  //   const getContent= (selectedItem)=>{
+
+  // switch(selectedItem){
+
+  //   case 
+
+  // }
+
+
+  //   }
+
+  return (
+    <>
+      <div className={styles["card-header"]}>{selectedItem}</div>
+    </>
+  )
+
+}
+
+
+function DesignCard({ context }) {
+
+  console.log("selectedItem", selectedItem);
+  return (
+    <>
+      <div className={styles["card-design"]}>Design long</div>
+      <div className={styles["card-design"]}>222Design long</div>
+
+    </>
+  )
+
+}
+function DefaultCard({ context }) {
+
+  console.log("selectedItem", selectedItem);
+  return (
+    <>
+      <div className={styles["card-content"]}>Default</div>
+
+    </>
+  )
+
+}
+
+
+export default function CardsMenu() {
+  const menuContext = React.useContext(MenuContext)
+  return (
+    <>
+      <MenuItems context={menuContext} />
+      {menuContext.isMenuContentVisible && <Deck context={menuContext} />}
+    </>
+  )
+
+}
+
+
+
+function MenuItems({ context }) {
+  const items = [{ name: "About" }, { name: "design your bike" }, { name: "specification" }, { name: "log in" }]
+  console.log("contex MenuItems t", context);
+  const onItemClick = useCallback((e, name) => {
+    console.log("e", e);
+    context.setIsMenuContentVisible(true)
+    context.setSelectedItem(name)
+
+
+  })
+  return (
+    //   <>
+    <div className={styles["menu-container"]}>
+      {items.map((itm) => (
+        <div className={styles["menu-item"]} onClick={(e) => onItemClick(e, itm.name)}>
+          {itm.name}
+        </div>
+      ))}
+    </div>
+
+  )
 }

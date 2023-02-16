@@ -1,14 +1,11 @@
 {
-  "name": "building-dynamic-envmaps",
+  "name": "hornbeam_bicycles_bitomer_ltd",
   "version": "1.0.0",
   "description": "Shows how to form self-contained components with their own state and user interaction.",
   "keywords": [
-    "ssr",
-    "reflections",
-    "glow",
-    "environment",
-    "bloom",
-    "lut"
+    "bicycles",
+    "beach cruiser",
+    "Buc"
   ],
   "main": "src/index.js",
   "dependencies": {

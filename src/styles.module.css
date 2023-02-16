@@ -10,6 +10,36 @@
   top: 0;
   left: 0;
 }
+.menu-container {
+  /* background: lightblue; */
+  display: flex;
+  align-items: center;
+  /* height: 100%; */
+  width: 100%;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  color: whitesmoke;
+}
+.menu-item {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.card-content {
+  color: whitesmoke;
+}
+
+.card-header {
+  color: whitesmoke;
+  font-size: large;
+}
+.card-design {
+  margin-bottom: 30px;
+  height: 800px;
+  background-color: thistle;
+  color: whitesmoke;
+  font-size: large;
+}
 .deck {
   position: absolute;
   width: 80%;

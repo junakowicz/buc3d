@@ -38,11 +38,11 @@ import { TextureLoader } from 'three/src/loaders/TextureLoader'
 const envHDR = '/small_hangar_02_4k.hdr'
 // const envHDR = '/portland_landing_pad_4k.hdr'
 export const ThemeContext = React.createContext()
-export const GreetingContext = React.createContext()
+export const MenuContext = React.createContext()
 const lookAtPos = new THREE.Vector3()
 
 function SceneWrapper() {
-  const ContextBridge = useContextBridge(ThemeContext, GreetingContext)
+  const ContextBridge = useContextBridge(ThemeContext, MenuContext)
 
   const { groundHeight, groundRadius, UVScale, decal1X, decal1Y, decal1Z, decal2X, decal2Y, decal2Z } = useControls({
     groundHeight: { value: 42, min: 0, max: 200 },
@@ -62,8 +62,9 @@ function SceneWrapper() {
 
   return (
     <>
-      <Canvas gl={{ toneMappingExposure: 0.41 }}>
-        {/* <Decal mesh={ref} {...props}>
+      <ContextBridge>
+        <Canvas gl={{ toneMappingExposure: 0.41 }}>
+          {/* <Decal mesh={ref} {...props}>
         <meshPhysicalMaterial
           roughness={0.2}
           transparent
@@ -74,7 +75,6 @@ function SceneWrapper() {
           polygonOffsetFactor={-10}
         />
       </Decal> */}
-        <ContextBridge>
           <Suspense fallback={null}>
             <Environment files={envHDR} ground={{ height: groundHeight, radius: groundRadius }} />
 
@@ -86,23 +86,26 @@ function SceneWrapper() {
           <Menu />
           <OrbitControls enableZoom enablePan={false} minPolarAngle={0} maxPolarAngle={Math.PI / 2.25} makeDefault />
           <PerspectiveCamera makeDefault position={[-30, 10, 120]} fov={35} />
-        </ContextBridge>
-      </Canvas>
+        </Canvas>
 
-      <CardsMenu />
+        <CardsMenu />
+      </ContextBridge>
     </>
   )
 }
 function App() {
   const [name, setName] = React.useState('')
+  const [isMenuContentVisible, setIsMenuContentVisible] = React.useState(false)
+  const [selectedItem, setSelectedItem] = React.useState(false)
+  console.log('isMenuContentVisible', isMenuContentVisible)
   return (
     // Provide several contexts from above the Canvas
     // This mimics the standard behavior of composing them
     // in the `App.tsx` or `index.tsx` files
     <ThemeContext.Provider value={{ colors: { red: '#ff0000', green: '#00ff00', blue: '#0000ff' } }}>
-      <GreetingContext.Provider value={{ name, setName }}>
+      <MenuContext.Provider value={{ selectedItem, setSelectedItem, name, setName, isMenuContentVisible, setIsMenuContentVisible }}>
         <SceneWrapper />
-      </GreetingContext.Provider>
+      </MenuContext.Provider>
     </ThemeContext.Provider>
   )
 }
