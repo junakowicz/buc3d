@@ -26,21 +26,34 @@
 .menu-item {
   margin-left: 10px;
   margin-right: 10px;
+  font-family: "Foregen";
+  cursor: pointer;
 }
 .card-content {
-  color: whitesmoke;
+  /* color: whitesmoke; */
+  color: white;
+  font-family: "Foregen";
+  padding: 10px;
 }
 
 .card-header {
   color: whitesmoke;
-  font-size: large;
+  font-size: 50px;
+  padding-left: 10px;
+  font-family: "Foregen";
 }
 .card-design {
   margin-bottom: 30px;
-  height: 800px;
-  background-color: thistle;
+  height: 600px;
+  /* background-color: thistle; */
   color: whitesmoke;
-  font-size: large;
+  font-family: "Foregen";
+  padding: 10px;
+  border-radius: 5px;
+  border-color: white;
+  margin: 10px;
+  border-style: solid;
+  border-width: 1px;
 }
 .deck {
   position: absolute;
@@ -63,7 +76,7 @@
   height: 85vh;
   max-height: 80vh;
   will-change: transform;
-  border-radius: 20px;
+  border-radius: 10px;
   border-color: white;
 
   border-style: solid;

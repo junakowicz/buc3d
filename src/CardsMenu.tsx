@@ -137,15 +137,15 @@ function CardContent({ selectedItem }: any) {
 function DesignCard({ context }: any) {
   return (
     <>
-      <div className={styles["card-design"]}>Design long</div>
-      <div className={styles["card-design"]}>222Design long</div>
+      <div className={styles["card-design"]}>Design section 1</div>
+      <div className={styles["card-design"]}>Design section 2 </div>
     </>
   );
 }
 function DefaultCard({ context }: any) {
   return (
     <>
-      <div className={styles["card-content"]}>Default</div>
+      <div className={styles["card-content"]}>Not default</div>
     </>
   );
 }

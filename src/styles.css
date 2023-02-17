@@ -15,3 +15,25 @@ body {
   background: #f0f0f0;
   overflow: hidden;
 }
+
+@font-face {
+  font-family: "Foregen";
+  src: local("Foregen"),
+    url("./fonts/The\ Foregen\ Rough\ One.ttf") format("truetype");
+  /* font-weight: bold; */
+}
+
+.font-face-gm {
+  font-family: "Foregen";
+}
+
+@font-face {
+  font-family: "TribalBox";
+  src: local("TribalBox"),
+    url("./fonts/The_Tribal_Box_demo-font-FFP.ttf") format("truetype");
+  /* font-weight: bold; */
+}
+
+.font-face-tb {
+  font-family: "TribalBox";
+}

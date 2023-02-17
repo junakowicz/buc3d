@@ -4,7 +4,7 @@ Command: npx gltfjsx@6.1.4 buc.glb --transform
 */
 
 import React, { useRef } from 'react'
-import { useGLTF,  useTexture,PivotControls,  Decal,} from '@react-three/drei'
+import { useGLTF, useTexture, PivotControls, Decal, } from '@react-three/drei'
 import { applyProps, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
@@ -13,12 +13,12 @@ const lookAtPos = new THREE.Vector3()
 export function Model(props) {
   const { nodes, materials } = useGLTF('/buc-transformed.glb')
 
-  const {decalsPosition: {decal1X,decal1Y,decal1Z,decal2X,decal2Y,decal2Z},} = props
+  const { decalsPosition: { decal1X, decal1Y, decal1Z, decal2X, decal2Y, decal2Z }, } = props
   const decal1 = useTexture('/decals/decal1.png')
   const decal2 = useTexture('/decals/decal2.jpg')
 
 
-  console.log("props.decalsPosition",props.decalsPosition)
+  console.log("props.decalsPosition", props.decalsPosition)
   useFrame((state, delta) => {
     // const step = 0.1
     // state.camera.fov = THREE.MathUtils.lerp(state.camera.fov, zoom ? 10 : 42, step)
@@ -31,7 +31,7 @@ export function Model(props) {
     state.camera.updateProjectionMatrix()
   })
 
-  
+
   return (
     <group {...props} dispose={null}>
       <mesh geometry={nodes.BUCv3_v41_simplified_jig_v38.geometry} material={materials.plastic} scale={0.4} />
@@ -107,10 +107,10 @@ export function Model(props) {
       <mesh geometry={nodes.BUCv3_v41_simplified_jig_v38090.geometry} material={materials['Brushed Aluminum']} scale={0.4} />
       <mesh geometry={nodes.BUCv3_v41_simplified_jig_v38091.geometry} material={materials['chrome brushed']} scale={0.4} />
       <mesh geometry={nodes.frame.geometry} material={materials['Material.002']} scale={0.4} >
-    
-      <Decal debug  position={[decal1X, decal1Y, decal1Z]} rotation={0} scale={100} map={decal1} map-anisotropy={16} />
-    
-      <Decal debug position={[decal2X, decal2Y, decal2Z]} rotation={0} scale={100} map={decal2} map-anisotropy={16} />
+
+        <Decal position={[decal1X, decal1Y, decal1Z]} rotation={0} scale={100} map={decal1} map-anisotropy={16} />
+
+        <Decal position={[decal2X, decal2Y, decal2Z]} rotation={0} scale={100} map={decal2} map-anisotropy={16} />
       </mesh>
     </group>
   )
