@@ -49,22 +49,32 @@ function Deck({ context }: any) {
   })); // Create a bunch of springs using the helpers above
   // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity
   const bind = useDrag(
-    ({ args: [index], down, movement: [mx], direction: [xDir], velocity }) => {
-      const trigger = velocity > 0.3; // If you flick hard enough it should trigger the card to fly out
+    ({
+      args: [index],
+      down,
+      movement: [mx, my],
+      direction: [xDir, yDir],
+      velocity,
+    }) => {
+      // console.log("mx:", mx, " my:", my, "\n  xdir:", xDir, " ydir", yDir);
+
+      const trigger = velocity > 0.1; // If you flick hard enough it should trigger the card to fly out
       const dir = xDir < 0 ? -1 : 1; // Direction should either point left or right
-      if (!down && trigger) gone.add(index); // If button/finger's up and trigger velocity is reached, we flag the card ready to fly out
+      const horizontalChange = Math.abs(mx) > 10;
+
+      if (!down && trigger && horizontalChange) gone.add(index); // If button/finger's up and trigger velocity is reached, we flag the card ready to fly out
       api.start((i) => {
         if (index !== i) return; // We're only interested in changing spring-data for the current spring
         const isGone = gone.has(index);
         const x = isGone ? (200 + window.innerWidth) * dir : down ? mx : 0; // When a card is gone it flys out left or right, otherwise goes back to zero
         const rot = mx / 100 + (isGone ? dir * 10 * velocity : 0); // How much the card tilts, flicking it harder makes it rotate faster
-        const scale = down ? 1.1 : 1; // Active cards lift up a bit
+        const scale = down ? 1.04 : 1; // Active cards lift up a bit
         return {
           x,
           rot,
           scale,
           delay: undefined,
-          config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 },
+          config: { friction: 50, tension: down ? 500 : isGone ? 200 : 500 },
         };
       });
 
