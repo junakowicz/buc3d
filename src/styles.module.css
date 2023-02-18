@@ -24,6 +24,7 @@
   color: whitesmoke;
   /* border-bottom: white; */
   /* border-bottom-width: 2px; */
+  z-index: 1000;
 }
 .menu-item {
   padding-left: 10px;
