@@ -61,7 +61,7 @@ import { TextureLoader } from "three/src/loaders/TextureLoader";
 // const envHDR = '/HDR_Light_Studio_Free_HDRI_Design_07.exr'
 // const envHDR = '/HDR_Light_Studio_Free_HDRI_Design_25.hdr'
 // const envHDR = '/short_tunnel_4k.hdr'
-const envHDR = "/small_hangar_02_4k.hdr";
+const envHDR = "/small_hangar_01_4k.hdr";
 // const envHDR = "/LA_Downtown_Helipad_GoldenHour_3k.hdr";
 
 // const envHDR = "/portland_landing_pad_4k.hdr";
@@ -117,11 +117,21 @@ function SceneWrapper() {
   const ref = React.useRef();
 
   // const [reactMap, threeMap] = useTexture(['/decals/decal1.jpg', '/decals/decal2.jpg'])
-
+  // THREE.NoToneMapping
+  // THREE.LinearToneMapping
+  // THREE.ReinhardToneMapping
+  // THREE.CineonToneMapping
+  // THREE.ACESFilmicToneMapping
+  // THREE.CustomToneMapping
   return (
     <>
       <ContextBridge>
-        <Canvas gl={{ toneMappingExposure: 0.41 }}>
+        <Canvas
+          gl={{
+            toneMappingExposure: 0.41,
+            toneMapping: THREE.CineonToneMapping,
+          }}
+        >
           {/* <Decal mesh={ref} {...props}>
         <meshPhysicalMaterial
           roughness={0.2}

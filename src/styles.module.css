@@ -22,12 +22,19 @@
   position: absolute;
   top: 0;
   color: whitesmoke;
+  /* border-bottom: white; */
+  /* border-bottom-width: 2px; */
 }
 .menu-item {
-  margin-left: 10px;
-  margin-right: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
   font-family: "Foregen";
   cursor: pointer;
+  border-bottom: white;
+  border-bottom-width: 1px;
+  /* border-bottom-style: solid; */
+  background: rgb(0, 0, 0, 0.3);
+  /* border-radius: 10px;
 }
 .card-content {
   /* color: whitesmoke; */
