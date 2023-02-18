@@ -95,6 +95,7 @@ function SceneWrapper() {
     decal2X,
     decal2Y,
     decal2Z,
+    maxDistance,
   } = useControls({
     groundHeight: { value: 42, min: 0, max: 200 },
     groundRadius: { value: 250, min: 0, max: 1000 },
@@ -105,6 +106,7 @@ function SceneWrapper() {
     decal2X: { value: 265, min: -500, max: 500 },
     decal2Y: { value: 240, min: -500, max: 500 },
     decal2Z: { value: 0, min: -500, max: 500 },
+    maxDistance: { value: 10, min: 10, max: 500 },
   });
   const decalsPosition = {
     decal1X,
@@ -173,6 +175,7 @@ function SceneWrapper() {
             minPolarAngle={0}
             maxPolarAngle={Math.PI / 2.25}
             makeDefault
+            maxDistance={310}
           />
           <PerspectiveCamera makeDefault position={[-30, 10, 120]} fov={35} />
         </Canvas>
