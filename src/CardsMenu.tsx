@@ -52,23 +52,14 @@ function Deck({ context }: any) {
     ...to(i),
     from: from(i),
   })); // Create a bunch of springs using the helpers above
-  useEffect(() => {
-    console.log(
-      " ---------IN DECK context.selectedItem",
-      context.isMenuContentVisible,
-      context.selectedItem,
-      current
-    );
 
+  // on menu item change animate replace
+  useEffect(() => {
     if (!current) {
       setCurrent(context.selectedItem);
-      // setTimeout(() => {
-      // gone.clear();
-      // }, 600);
       return;
     }
     if (current !== context.selectedItem) {
-      console.log("SKIP");
       const dir = Math.random() > 0.5 ? -1 : 1;
 
       api.start((i) => from(i, dir));
@@ -77,11 +68,9 @@ function Deck({ context }: any) {
         setCurrent(context.selectedItem);
         api.set(from(0, dir * -1));
         api.start((i) => to(i));
-        // gone.clear();
-        // context.setIsMenuContentVisible(false);
       }, 400);
     }
-  }, [context.selectedItem, api, context.isMenuContentVisible, current]);
+  }, [context.selectedItem, api, current]);
   // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity
   const bind = useDrag(
     ({
@@ -150,12 +139,7 @@ function Deck({ context }: any) {
 }
 
 function CardContent({ selectedItem }: any) {
-  // const { selectedItem } = context;
-  console.log("card content --- selectedItem", selectedItem);
-  const [current, setCurrent] = useState(MENU_ITEM_NAMES.NULL);
   const getContent = (selectedItem: MENU_ITEM_NAMES) => {
-    console.log("selectedItem||||||||| getContent", selectedItem);
-
     switch (selectedItem) {
       case MENU_ITEM_NAMES.SPECIFICATION:
         return <DesignCard />;
@@ -165,18 +149,6 @@ function CardContent({ selectedItem }: any) {
         return <DefaultCard />;
     }
   };
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setCurrent(selectedItem);
-  //   }, 800);
-  // }, [selectedItem]);
-
-  //   }
-
-  // if (!current) {
-  //   return null;
-  // }
 
   return (
     <>
