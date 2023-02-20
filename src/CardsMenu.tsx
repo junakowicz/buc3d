@@ -5,11 +5,13 @@ import { useDrag } from "react-use-gesture";
 import { MenuContext } from "./App";
 import styles from "./styles.module.css";
 import { useCallback } from "react";
+import { useEffect } from "react";
 export enum MENU_ITEM_NAMES {
   ABOUT = "About",
   DESIGN = "design your bike",
   SPECIFICATION = "specification",
   LOG_IN = "Log in",
+  NULL = "",
 }
 
 const cards = [
@@ -27,13 +29,14 @@ const to = (i: number) => ({
   y: i * -4,
   scale: 1,
   rot: 0,
-  delay: i * 100,
+  // delay: 200,
 });
-const from = (_i: number) => ({
-  x: 0,
+const from = (_i: number, remove: boolean = false) => ({
+  x: -2000 * (Math.random() > 0.5 ? -1 : 1),
   rot: -10 + Math.random() * 20,
   scale: 1.5,
-  y: -1000,
+  y: 0,
+  // delay: 400,
 });
 // This is being used down there in the view, it interpolates rotation and scale into a css transform
 const trans = (r: number, s: number) =>
@@ -43,10 +46,39 @@ const trans = (r: number, s: number) =>
 
 function Deck({ context }: any) {
   const [gone] = useState(() => new Set()); // The set flags all the cards that are flicked out
+  const [current, setCurrent] = useState(null); // The set flags all the cards that are flicked out
+
   const [props, api] = useSprings(cards.length, (i) => ({
     ...to(i),
     from: from(i),
   })); // Create a bunch of springs using the helpers above
+  useEffect(() => {
+    console.log(
+      " ---------IN DECK context.selectedItem",
+      context.isMenuContentVisible,
+      context.selectedItem,
+      current
+    );
+
+    if (!current) {
+      setCurrent(context.selectedItem);
+      // setTimeout(() => {
+      // gone.clear();
+      // }, 600);
+      return;
+    }
+    if (current !== context.selectedItem) {
+      console.log("SKIP");
+      api.start((i) => from(i, true));
+
+      setTimeout(() => {
+        setCurrent(context.selectedItem);
+        api.start((i) => to(i));
+        // gone.clear();
+        // context.setIsMenuContentVisible(false);
+      }, 400);
+    }
+  }, [context.selectedItem, api, context.isMenuContentVisible, current]);
   // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity
   const bind = useDrag(
     ({
@@ -86,6 +118,11 @@ function Deck({ context }: any) {
         }, 600);
     }
   );
+
+  if (!current) {
+    return null;
+  }
+
   // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
   return (
     //   <>
@@ -101,7 +138,7 @@ function Deck({ context }: any) {
             }}
           >
             {" "}
-            <CardContent selectedItem={context.selectedItem} />
+            <CardContent selectedItem={current} />
           </animated.div>
         </animated.div>
       ))}
@@ -112,19 +149,31 @@ function Deck({ context }: any) {
 function CardContent({ selectedItem }: any) {
   // const { selectedItem } = context;
   console.log("card content --- selectedItem", selectedItem);
-
+  const [current, setCurrent] = useState(MENU_ITEM_NAMES.NULL);
   const getContent = (selectedItem: MENU_ITEM_NAMES) => {
-    console.log("selectedItem getContent", selectedItem);
+    console.log("selectedItem||||||||| getContent", selectedItem);
 
     switch (selectedItem) {
       case MENU_ITEM_NAMES.SPECIFICATION:
         return <DesignCard />;
+      case MENU_ITEM_NAMES.NULL:
+        return null;
       default:
         return <DefaultCard />;
     }
   };
 
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setCurrent(selectedItem);
+  //   }, 800);
+  // }, [selectedItem]);
+
   //   }
+
+  // if (!current) {
+  //   return null;
+  // }
 
   return (
     <>
