@@ -31,8 +31,8 @@ const to = (i: number) => ({
   rot: 0,
   // delay: 200,
 });
-const from = (_i: number, remove: boolean = false) => ({
-  x: -2000 * (Math.random() > 0.5 ? -1 : 1),
+const from = (_i: number, dir: number = -1) => ({
+  x: -2000 * dir,
   rot: -10 + Math.random() * 20,
   scale: 1.5,
   y: 0,
@@ -69,10 +69,13 @@ function Deck({ context }: any) {
     }
     if (current !== context.selectedItem) {
       console.log("SKIP");
-      api.start((i) => from(i, true));
+      const dir = Math.random() > 0.5 ? -1 : 1;
+
+      api.start((i) => from(i, dir));
 
       setTimeout(() => {
         setCurrent(context.selectedItem);
+        api.set(from(0, dir * -1));
         api.start((i) => to(i));
         // gone.clear();
         // context.setIsMenuContentVisible(false);
