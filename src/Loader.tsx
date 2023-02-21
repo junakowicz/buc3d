@@ -59,7 +59,11 @@ export function Loader({ children }: any) {
 
   const percentToDisplay = Math.round(
     // @ts-ignore
-    totalPercentDelayed === NaN ? 0 : totalPercentDelayed
+    totalPercentDelayed === NaN ||
+      totalPercentDelayed === "NaN" ||
+      !totalPercentDelayed
+      ? 0
+      : totalPercentDelayed
   );
   return (
     <div
