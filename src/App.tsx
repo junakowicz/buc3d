@@ -1,30 +1,3 @@
-// import React from 'react';
-// import logo from './logo.svg';
-// import './App.css';
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.tsx</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;
-
 import { Canvas, useFrame } from "@react-three/fiber";
 import {
   Environment,
@@ -49,6 +22,8 @@ import { useControls } from "leva";
 import { Suspense } from "react";
 import * as THREE from "three";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
+import { Loader } from "./Loader";
+import { useThreeLoader } from "./useThreeLoader";
 
 // const envHDR = './abandoned_greenhouse_2k/abandoned_greenhouse_2k.hdr'
 // const envHDR = '/neon_photostudio_4k.hdr'
@@ -66,8 +41,9 @@ const envHDR = "/small_hangar_01_4k.hdr";
 
 // const envHDR = "/portland_landing_pad_4k.hdr";
 
-type ThemeContextType = {
-  colors: { red: string; green: string; blue: string };
+type AppContextType = {
+  totalPercent: number;
+  setTotalPercent: React.Dispatch<React.SetStateAction<number>>;
 } | null;
 type MenuContextType = {
   selectedItem: boolean;
@@ -78,12 +54,15 @@ type MenuContextType = {
   setIsMenuContentVisible: React.Dispatch<React.SetStateAction<boolean>>;
 } | null;
 
-export const ThemeContext = React.createContext<ThemeContextType>(null);
+export const AppContext = React.createContext<AppContextType>(null);
 export const MenuContext = React.createContext<MenuContextType>(null);
 const lookAtPos = new THREE.Vector3();
 
 function SceneWrapper() {
-  const ContextBridge = useContextBridge(ThemeContext, MenuContext);
+  const ContextBridge = useContextBridge(AppContext, MenuContext);
+  // const { totalPercent, hasError } = useThreeLoader();
+
+  // console.log("totalPercent", totalPercent);
 
   const {
     groundHeight,
@@ -128,6 +107,7 @@ function SceneWrapper() {
   return (
     <>
       <ContextBridge>
+        <Loader />
         <Canvas
           gl={{
             toneMappingExposure: 0.41,
@@ -189,14 +169,14 @@ function App() {
   const [name, setName] = React.useState("");
   const [isMenuContentVisible, setIsMenuContentVisible] = React.useState(false);
   const [selectedItem, setSelectedItem] = React.useState(false);
+  const [totalPercent, setTotalPercent] = React.useState(0);
+
   console.log("isMenuContentVisible", isMenuContentVisible);
   return (
     // Provide several contexts from above the Canvas
     // This mimics the standard behavior of composing them
     // in the `App.tsx` or `index.tsx` files
-    <ThemeContext.Provider
-      value={{ colors: { red: "#ff0000", green: "#00ff00", blue: "#0000ff" } }}
-    >
+    <AppContext.Provider value={{ totalPercent, setTotalPercent }}>
       <MenuContext.Provider
         value={{
           selectedItem,
@@ -209,7 +189,7 @@ function App() {
       >
         <SceneWrapper />
       </MenuContext.Provider>
-    </ThemeContext.Provider>
+    </AppContext.Provider>
   );
 }
 
