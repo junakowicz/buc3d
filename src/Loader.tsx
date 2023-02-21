@@ -27,6 +27,7 @@ export function Loader({ children }: any) {
   const { totalPercent, hasError } = useThreeLoader();
   const [int, setInt] = useState<any>(null);
   const [totalPercentDelayed, setTotalPercentDelayed] = useState<any>(null);
+
   console.log("totalPercentDelayed", totalPercentDelayed);
 
   //   useEffect(() => {
@@ -55,6 +56,11 @@ export function Loader({ children }: any) {
   }
 
   //   return null;
+
+  const percentToDisplay = Math.round(
+    // @ts-ignore
+    totalPercentDelayed === NaN ? 0 : totalPercentDelayed
+  );
   return (
     <div
       style={{
@@ -68,15 +74,20 @@ export function Loader({ children }: any) {
       <div
         style={{
           color: "white",
-          marginTop: "50vw",
-          marginLeft: "auto",
-          marginRight: "auto",
+          /* margin-left: auto; */
+          /* margin-right: auto; */
           textAlign: "center",
           width: "200px",
+          position: "absolute",
+          left: "calc(50% - 100px)",
+          top: "50%",
+          transform: "translateY(-50%)",
+          fontFamily: "Foregen",
         }}
       >
         {" "}
-        {totalPercentDelayed} % loaded{" "}
+        <img src="/images/pn.png" style={{ width: "200px" }} />
+        <p style={{ paddingLeft: "25px" }}>{percentToDisplay} % loaded </p>
       </div>
     </div>
     // <Html
