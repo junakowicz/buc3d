@@ -16,7 +16,7 @@ jobs:
       - name: Installing dependencies
         run: npm i
       - name: Building React
-        run: npm run build
+        run: CI='' npm run build
       - name: Deploy to server
         uses: SamKirkland/FTP-Deploy-Action@4.1.0
         with:
